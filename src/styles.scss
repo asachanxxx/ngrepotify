@@ -1,1 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
+/*
+Reset CSS
+*/
+
+@import './app//core//css/Normalize.scss';
+@import './app/core/css/default.scss';

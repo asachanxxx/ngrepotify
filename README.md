@@ -1,6 +1,9 @@
 # Ngreport
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.0.5.
+TUTORIAL : https://codeburst.io/how-to-built-npm-ready-component-library-with-angular-a812a22dc1d5
+
+Basic Idea is that i am trying to build a report component with feature same sa Crystal Report 
+Still I have only an idea and trying to bring it to life. hope this will work as such it would be.
 
 ## Development server
 

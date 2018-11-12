@@ -1,0 +1,22 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<div class="b_rep_wrapper">
+  <div class="b_rep_header" *ngIf="DocumentConfigurations.b_report_header_visible">
+    <h2>Report Header</h2>
+  </div>
+
+  <div class="b_page_header" *ngIf="DocumentConfigurations.b_page_header_visible">
+    <h3>Page Header</h3>
+  </div>
+
+  <div class="b_details">
+    {{this.DocumentConfigurations |json}}
+  </div>
+
+  <div class="b_page_footer" *ngIf="DocumentConfigurations.b_page_fotter_visible">
+    <h3>Page footer</h3>
+  </div>
+
+  <div class="b_report_header" *ngIf="DocumentConfigurations.b_report_footer_visible">
+    <h3>Report Header</h3>
+  </div>
+</div>
