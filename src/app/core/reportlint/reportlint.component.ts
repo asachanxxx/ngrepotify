@@ -15,11 +15,11 @@ import { Meta_extract } from 'src/app/cls_classes';
   templateUrl: './reportlint.component.html',
   styleUrls: ['./reportlint.component.scss']
 })
-export class ReportlintComponent implements OnInit ,AfterViewInit {
-  
-  
+export class ReportlintComponent implements OnInit, AfterViewInit {
+
+
   ngAfterViewInit(): void {
-  
+
   }
   /**
     * All Inisializing variable that needs to input to the component
@@ -29,8 +29,9 @@ export class ReportlintComponent implements OnInit ,AfterViewInit {
   Report configuration data ...
   */
   @Input() DocumentConfigurations: ReportConfiguration;
-
-
+  public evilResponseProps;
+  public expx: Array<Meta_extract>;
+  public expo_iteration_count;
 
   constructor() { }
 
@@ -79,15 +80,17 @@ export class ReportlintComponent implements OnInit ,AfterViewInit {
     this.DocumentConfigurations.Header_List.push(header1, header2, header3, header4);
     console.log(this.DocumentConfigurations.Header_List);
 
-   
-    var expx: Array<Meta_extract> = new Array<Meta_extract>();
-    expx.push({val1:1 , val2:"Asanga"});
-    expx.push({val1:2 , val2:"Asanga chan"});
+
+    this.expx = new Array<Meta_extract>();
+    this.expx.push({ val1: 1, val2: "Asanga" });
+    this.expx.push({ val1: 2, val2: "Asanga chan" });
 
     // Step 1. Get all the object keys.
-    let evilResponseProps = Object.getOwnPropertyNames(expx[0]);
-    console.log("evilResponseProps",evilResponseProps)
+    this.evilResponseProps = Object.getOwnPropertyNames(this.expx[0]);
+    this.expo_iteration_count = this.evilResponseProps.length;
 
+    
+    console.log("this.expo_iteration_count", this.expo_iteration_count);
 
     // // Step 2. Create an empty array.
     // let goodResponse = [];
@@ -107,6 +110,14 @@ export class ReportlintComponent implements OnInit ,AfterViewInit {
     // };
     // console.log(object1)
     //console.log(Object.getOwnPropertyNames(object1));
+  }
+
+  createRange(number){
+    var items: number[] = [];
+    for(var i = 1; i <=  this.expo_iteration_count; i++){
+       items.push(i);
+    }
+    return items;
   }
 
 }

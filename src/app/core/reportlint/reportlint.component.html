@@ -41,30 +41,21 @@
     </div>
 
   </div>
-
   <div class="b_details">
-    <!-- {{this.DocumentConfigurations |json}} -->
-    Values {{evilResponseProps |json}}
     <table class="table table-striped">
         <thead>
           <tr> 
-           
-            <div *ngFor="let item of evilResponseProps; let a = index" >
-                {{item |json}} {{a}}
-            </div>
-            <th *ngFor="let item of evilResponseProps; let a = index" > {{item |json}} {{a}} </th>
+            <th *ngFor="let item of evilResponseProps; let a = index" > {{item}}</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>John</td>
-            <td>Doe</td>
-            <td>john@example.com</td>
+          <tr *ngFor="let expitem of expx; let a = index">
+            <td *ngFor="let expitem_child of createRange(5); let currentElementIndex=index" > 
+              {{expitem|json}} {{expitem_child}} {{expitem[0]}}
+            </td>
           </tr>
         </tbody>
       </table>
-
-   
   </div>
 
   <div class="b_page_footer" *ngIf="DocumentConfigurations.b_page_fotter_visible">
