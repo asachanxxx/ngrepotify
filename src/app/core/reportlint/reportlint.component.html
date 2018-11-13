@@ -1,15 +1,70 @@
 <!--The content below is only a placeholder and can be replaced.-->
 <div class="b_rep_wrapper">
   <div class="b_rep_header" *ngIf="DocumentConfigurations.b_report_header_visible">
-    <h2>Report Header</h2>
+    <header *ngIf="DocumentConfigurations.b_report_header_Layout ===1">
+      <div class="row">
+        <div class="col">
+          <img [src]="DocumentConfigurations.Report_Image_Url" data-holder-rendered="true" [width]="DocumentConfigurations.Report_Image_Width"
+            [height]="DocumentConfigurations.Report_Image_Height" />
+        </div>
+        <div class="col push-text-to-right" *ngIf="DocumentConfigurations.Header_List">
+          <div *ngFor="let element of this.DocumentConfigurations.Header_List">
+            <span class="field_caption">{{element.Field_Caption}}</span>
+            <span>{{element.Field_Separator}}</span>
+            <span class="field_value">{{element.Field_value}}</span>
+            <span *ngIf="element.Field_Suffix_Off">{{element.Field_Suffix}}</span>
+          </div>
+        </div>
+      </div>
+    </header>
   </div>
 
   <div class="b_page_header" *ngIf="DocumentConfigurations.b_page_header_visible">
-    <h3>Page Header</h3>
+
+    <div class="row">
+      <div class="col" *ngIf="DocumentConfigurations.Header_List">
+        <div *ngFor="let element of this.DocumentConfigurations.Header_List">
+          <span class="field_caption">{{element.Field_Caption}}</span>
+          <span>{{element.Field_Separator}}</span>
+          <span class="field_value">{{element.Field_value}}</span>
+          <span *ngIf="element.Field_Suffix_Off">{{element.Field_Suffix}}</span>
+        </div>
+      </div>
+      <div class="col push-text-to-right" *ngIf="DocumentConfigurations.Header_List">
+        <div *ngFor="let element of this.DocumentConfigurations.Header_List">
+          <span class="field_caption">{{element.Field_Caption}}</span>
+          <span>{{element.Field_Separator}}</span>
+          <span class="field_value">{{element.Field_value}}</span>
+          <span *ngIf="element.Field_Suffix_Off">{{element.Field_Suffix}}</span>
+        </div>
+      </div>
+    </div>
+
   </div>
 
   <div class="b_details">
-    {{this.DocumentConfigurations |json}}
+    <!-- {{this.DocumentConfigurations |json}} -->
+    Values {{evilResponseProps |json}}
+    <table class="table table-striped">
+        <thead>
+          <tr> 
+           
+            <div *ngFor="let item of evilResponseProps; let a = index" >
+                {{item |json}} {{a}}
+            </div>
+            <th *ngFor="let item of evilResponseProps; let a = index" > {{item |json}} {{a}} </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>John</td>
+            <td>Doe</td>
+            <td>john@example.com</td>
+          </tr>
+        </tbody>
+      </table>
+
+   
   </div>
 
   <div class="b_page_footer" *ngIf="DocumentConfigurations.b_page_fotter_visible">

@@ -10,41 +10,54 @@ $col-text_icon_primary-dark:#212121;
 $col-text_icon_secondry-dark:#757575;
 $col-devider:#BDBDBD;
 $col-accent:#03A9F4;
+$col-background-light:#9e9e9e14;
 
 .b_rep_wrapper{
-    margin:  0 auto;
+    margin:  6px auto;
     padding: 10px;
     border: 1px dotted $col-devider;
-    background-color:$col-primary;
+    //background-color:$col-primary;
     color: $col-text_icon_primary-light;
     
 }
 
 .b_rep_header{
-    background-color:$col-light-primary;
+    background-color:$col-background-light;//$col-light-primary;
     color: $col-text_icon_primary-dark;
-    border: 1px dotted $col-devider;
+    //border: 1px dotted $col-devider;
 }
 
 .b_page_header{
     background-color:$col-light-primary;
     color: $col-text_icon_primary-dark;
-    border: 1px dotted $col-devider;
+    //border: 1px dotted $col-devider;
 }
 
 .b_page_footer{
     background-color:$col-light-primary;
     color: $col-text_icon_primary-dark;
-    border: 1px dotted $col-devider;
+    //border: 1px dotted $col-devider;
 }
 
 .b_report_header{
     background-color:$col-light-primary;
     color: $col-text_icon_primary-dark;
-    border: 1px dotted $col-devider;
+    //border: 1px dotted $col-devider;
 }
 .b_details{
     background-color:$col-text_icon_primary-light;
     color: $col-text_icon_primary-dark;
-    border: 1px dotted $col-devider;
+    //border: 1px dotted $col-devider;
+}
+
+.push-text-to-right {
+    text-align: right
+}
+
+
+.field_caption{
+    color: $col-dark-primary;
+}
+.field_value{
+    color: $col-text_icon_primary-dark;
 }
