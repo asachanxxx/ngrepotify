@@ -7,7 +7,7 @@
  */
 
 import { Component, Input, OnInit, AfterViewInit } from '@angular/core';
-import { ReportConfiguration, ReportField } from './c_reportify_config';
+import { ReportConfiguration, ReportField, ReportDetailProperty, ReportDetailHeader } from './c_reportify_config';
 import { Meta_extract } from 'src/app/cls_classes';
 
 @Component({
@@ -29,18 +29,19 @@ export class ReportlintComponent implements OnInit, AfterViewInit {
   Report configuration data ...
   */
   @Input() DocumentConfigurations: ReportConfiguration;
-  public evilResponseProps;
-  public expx: Array<Meta_extract>;
-  public expo_iteration_count;
+  @Input() Report_Details: ReportDetailProperty;
+  public Report_Test_Data: Array<Meta_extract>;
+
 
   constructor() { }
 
   ngOnInit() {
     this.DocumentConfigurations = new ReportConfiguration();
     this.DocumentConfigurations.Report_Image_Url = 'assets/Repotify.png';
-
     this.DocumentConfigurations.Header_List = new Array<ReportField>();
 
+
+    /* Making Test Data* ****************************************************************************/
     var header1: ReportField = new ReportField();
     header1.Field_Caption = "Customer";
     header1.Field_Separator = " : ";
@@ -80,44 +81,32 @@ export class ReportlintComponent implements OnInit, AfterViewInit {
     this.DocumentConfigurations.Header_List.push(header1, header2, header3, header4);
     console.log(this.DocumentConfigurations.Header_List);
 
-
-    this.expx = new Array<Meta_extract>();
-    this.expx.push({ val1: 1, val2: "Asanga" });
-    this.expx.push({ val1: 2, val2: "Asanga chan" });
-
-    // Step 1. Get all the object keys.
-    this.evilResponseProps = Object.getOwnPropertyNames(this.expx[0]);
-    this.expo_iteration_count = this.evilResponseProps.length;
-
-    
-    console.log("this.expo_iteration_count", this.expo_iteration_count);
-
-    // // Step 2. Create an empty array.
-    // let goodResponse = [];
-    // // Step 3. Iterate throw all keys.
-    // for (let prop of evilResponseProps) {
-    //   //goodResponse.push(evilResponseProps[prop]);
-    //   // console.log(prop);
-    //   // console.log(Object.getOwnPropertyNames(prop));
-    // }
-
-    // //console.log(evilResponseProps);
-
-    // const object1 = {
-    //   a: 1,
-    //   b: 2,
-    //   c: 3
-    // };
-    // console.log(object1)
-    //console.log(Object.getOwnPropertyNames(object1));
-  }
-
-  createRange(number){
-    var items: number[] = [];
-    for(var i = 1; i <=  this.expo_iteration_count; i++){
-       items.push(i);
+    this.Report_Test_Data = new Array<Meta_extract>();
+    this.Report_Test_Data.push({ val1: 1, val2: "Asanga", val3: "07784584458", val4: "cspl.itm@googlemail.com" });
+    this.Report_Test_Data.push({ val1: 2, val2: "Asanga chan", val3: "0552458548", val4: "fmcg@slt.com.lk" });
+    for (var x = 0; x < 100; x++) {
+      this.Report_Test_Data.push({ val1: x, val2: "Asanga chan" + x.toString(), val3: "0552458548", val4: x.toString() + "@slt.com.lk" });
     }
-    return items;
+    /****************************** END of test Data ************************************************************************************* */
+
+
+
+    /*Report Details Configurations */
+    this.Report_Details = new ReportDetailProperty();
+    this.Report_Details.Property_Headers.push(
+      { Field_Color: "", Field_Text: "Id", Field_Font_Size: 12, Field_FontBold: false, Field_Underlined: false },
+      { Field_Color: "", Field_Text: "Customer Name", Field_Font_Size: 12, Field_FontBold: false, Field_Underlined: false },
+      { Field_Color: "", Field_Text: "Contact No", Field_Font_Size: 12, Field_FontBold: false, Field_Underlined: false },
+      { Field_Color: "", Field_Text: "E-Mail", Field_Font_Size: 12, Field_FontBold: false, Field_Underlined: false }
+    )
+    this.Report_Details.Property_Data = new Array<Meta_extract>();
+    this.Report_Details.Property_Count = 4;
+    this.Report_Details.Property_Data = this.Report_Test_Data;
+
+
+
   }
+
+
 
 }

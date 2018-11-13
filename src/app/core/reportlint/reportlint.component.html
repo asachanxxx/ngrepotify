@@ -43,19 +43,17 @@
   </div>
   <div class="b_details">
     <table class="table table-striped">
-        <thead>
-          <tr> 
-            <th *ngFor="let item of evilResponseProps; let a = index" > {{item}}</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let expitem of expx; let a = index">
-            <td *ngFor="let expitem_child of createRange(5); let currentElementIndex=index" > 
-              {{expitem|json}} {{expitem_child}} {{expitem[0]}}
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <thead>
+        <tr>
+          <th *ngFor="let item of Report_Details.Property_Headers; let a = index"> {{item.Field_Text}}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let expitem of Report_Details.Property_Data; let a = index">
+          <td *ngFor="let item of expitem | keyvalue"> {{ item.value }} </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 
   <div class="b_page_footer" *ngIf="DocumentConfigurations.b_page_fotter_visible">
