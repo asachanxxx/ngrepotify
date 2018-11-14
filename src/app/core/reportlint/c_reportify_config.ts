@@ -47,10 +47,18 @@ export class ReportDetailHeader {
     public Field_Underlined: boolean = false;
 }
 
-
+/**
+ * Holds the Report body details.
+ */
 export class ReportDetailProperty {
     public Property_Count: number = 0;
     public Property_Headers:Array<ReportDetailHeader> =new Array<ReportDetailHeader>();
     public Property_Data: any[] = [];
+    public Property_Data_With_Grouping: Array<ReportGroupItem> = new Array<ReportGroupItem>();
 }
 
+
+export class ReportGroupItem {
+    public Group_Name: string = "";
+    public Group_Data: any[] = [];
+}

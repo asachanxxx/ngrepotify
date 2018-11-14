@@ -9,6 +9,7 @@
 import { Component, Input, OnInit, AfterViewInit } from '@angular/core';
 import { ReportConfiguration, ReportField, ReportDetailProperty, ReportDetailHeader } from './c_reportify_config';
 import { Meta_extract } from 'src/app/cls_classes';
+import { Observable, of, observable, Observer } from 'rxjs';
 
 @Component({
   selector: 'app-reportlint',
@@ -16,6 +17,7 @@ import { Meta_extract } from 'src/app/cls_classes';
   styleUrls: ['./reportlint.component.scss']
 })
 export class ReportlintComponent implements OnInit, AfterViewInit {
+  time: Observable<string>;
 
 
   ngAfterViewInit(): void {
@@ -25,15 +27,49 @@ export class ReportlintComponent implements OnInit, AfterViewInit {
     * All Inisializing variable that needs to input to the component
   */
 
-  /*
-  Report configuration data ...
-  */
+  /**
+   * Report configuration data ...
+   */
   @Input() DocumentConfigurations: ReportConfiguration;
+  /**
+   * Report  Body  ...
+   */
   @Input() Report_Details: ReportDetailProperty;
+  /**
+   * This is to pass the report header image
+   */
+  @Input() Report_BaseImage_Path: string;
+  /**
+   *  1- Normal Tabular  Mode
+   *  2- Tabular WithGrouping Client Side Processing
+   *  3- Tabular WithGrouping Server Side Processing
+   */
+  public ReportMode: number = 2;
+  /**
+   * This is to pass if group summary on or off
+   */
+  @Input() Turn_On_Group_Summary: boolean = true;
+  /**
+   * Holds the data after grouping the raw data
+   */
+  public GroupBy_Colelction: Array<any> = new Array<any>();
+
+
+
   public Report_Test_Data: Array<Meta_extract>;
 
 
-  constructor() { }
+  constructor() {
+
+    var total = [0, 1, 2, 3, 4, 5].reduce(
+      function (a, b) {
+        console.log("reducer", a, b);
+        return a + b;
+
+      });
+
+
+  }
 
   ngOnInit() {
     this.DocumentConfigurations = new ReportConfiguration();
@@ -81,32 +117,116 @@ export class ReportlintComponent implements OnInit, AfterViewInit {
     this.DocumentConfigurations.Header_List.push(header1, header2, header3, header4);
     console.log(this.DocumentConfigurations.Header_List);
 
+
     this.Report_Test_Data = new Array<Meta_extract>();
-    this.Report_Test_Data.push({ val1: 1, val2: "Asanga", val3: "07784584458", val4: "cspl.itm@googlemail.com" });
-    this.Report_Test_Data.push({ val1: 2, val2: "Asanga chan", val3: "0552458548", val4: "fmcg@slt.com.lk" });
-    for (var x = 0; x < 100; x++) {
-      this.Report_Test_Data.push({ val1: x, val2: "Asanga chan" + x.toString(), val3: "0552458548", val4: x.toString() + "@slt.com.lk" });
+    for (var x = 0; x < 50; x++) {
+      var cusname = "Asanga";
+      switch (x % 9) {
+        case 1:
+          cusname = "Praboda";
+          break;
+        case 2:
+          cusname = "Umesh";
+          break;
+        case 3:
+          cusname = "Achala";
+          break;
+        case 4:
+          cusname = "Thivanka";
+          break;
+        case 5:
+          cusname = "Shashimal";
+          break;
+        case 6:
+          cusname = "Dilhara";
+          break;
+        case 7:
+          cusname = "Susiri";
+          break;
+        case 8:
+          cusname = "Ramesh";
+          break;
+        case 9:
+          cusname = "Geeth";
+          break;
+        default:
+          cusname = "Thilak";
+          break;
+      }
+      //cusname = cusname + (x % 9).toString();
+      this.Report_Test_Data.push({ val1: x, val2: cusname, val3: "0" + (x % 9).toString() + "524" + (x % 9).toString() + "58548", val4: (x % 9).toString() + "@slt.com.lk", val5: x });
     }
     /****************************** END of test Data ************************************************************************************* */
 
 
 
-    /*Report Details Configurations */
+    /*Report Details Configurations ************************************************************************************/
     this.Report_Details = new ReportDetailProperty();
     this.Report_Details.Property_Headers.push(
       { Field_Color: "", Field_Text: "Id", Field_Font_Size: 12, Field_FontBold: false, Field_Underlined: false },
       { Field_Color: "", Field_Text: "Customer Name", Field_Font_Size: 12, Field_FontBold: false, Field_Underlined: false },
       { Field_Color: "", Field_Text: "Contact No", Field_Font_Size: 12, Field_FontBold: false, Field_Underlined: false },
-      { Field_Color: "", Field_Text: "E-Mail", Field_Font_Size: 12, Field_FontBold: false, Field_Underlined: false }
+      { Field_Color: "", Field_Text: "E-Mail", Field_Font_Size: 12, Field_FontBold: false, Field_Underlined: false },
+      { Field_Color: "", Field_Text: "Count", Field_Font_Size: 12, Field_FontBold: false, Field_Underlined: false }
     )
     this.Report_Details.Property_Data = new Array<Meta_extract>();
     this.Report_Details.Property_Count = 4;
     this.Report_Details.Property_Data = this.Report_Test_Data;
+    /*End of the configurations *********************************************************************************************/
+
+    this.GroupBy_Colelction = this.transform(this.Report_Test_Data, "val3")
+    console.log("groupByName: ", this.GroupBy_Colelction);
+
+    console.log("Object.keys",
+      Object.keys(this.Report_Details.Property_Headers).
+        map(
+          k => (
+            {
+              k,
+              value: this.Report_Details.Property_Headers[k].Field_Text
+            })));
 
 
-
+    this.time = new Observable<string>((observer: Observer<string>) => {
+      setInterval(() => observer.next(new Date().toString()), 1000);
+    });
   }
 
+  /**
+   * Syncronusly Group the given List of object by given field 
+   */
+  transform(collection: Array<any>, property: string): Array<any> {
+    if (!collection) {
+      return null;
+    }
+    const groupedCollection = collection.reduce((previous, current) => {
+      if (!previous[current[property]]) {
+        previous[current[property]] = [current];
+      } else {
+        previous[current[property]].push(current);
+      }
+      return previous;
+    }, {});
+    console.log("groupedCollection", groupedCollection)
+    return Object.keys(groupedCollection).map(key => ({ key, value: groupedCollection[key] }));
+  }
 
+  /**
+  * ASyncronusly Group the given List of object by given field 
+  */
+  transformSync(collection: Array<any>, property: string): Observable<Array<any>> {
+    if (!collection) {
+      return null;
+    }
+    const groupedCollection = collection.reduce((previous, current) => {
+      if (!previous[current[property]]) {
+        previous[current[property]] = [current];
+      } else {
+        previous[current[property]].push(current);
+      }
+      return previous;
+    }, {});
+    return of(Object.keys(groupedCollection).map(key => ({ key, value: groupedCollection[key] })));
+  }
 
 }
