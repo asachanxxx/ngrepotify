@@ -62,7 +62,7 @@
     </ng-container>
     <ng-container *ngIf="ReportMode ===2">
       Group BY reportingdd
-      <div *ngFor="let item of GroupBy_Colelction">
+      <div *ngFor="let item of Group_Colelction_With_summary.Arr1">
         <h2 style="border-bottom:1px solid black ">{{item.key}}</h2>
         <table class="table table-striped">
           <thead>
@@ -76,6 +76,11 @@
             </tr>
           </tbody>
         </table>
+        <div>
+            <h3 class="push-text-to-right" style="border-top:1px solid black;border-bottom:1px solid black;">{{Filer_Summary(item.key)}}</h3>
+        </div>
+        
+
       </div>
     </ng-container>
 

@@ -62,3 +62,24 @@ export class ReportGroupItem {
     public Group_Name: string = "";
     public Group_Data: any[] = [];
 }
+
+
+export class KeyValueForSummary {
+    public Key: string = "";
+    public Value:number = 0;
+}
+
+export class DoubleArray {
+    public Arr1:Array<any>= [];
+    public Arr2:Array<any>= [];
+}
+
+enum Aggregate_Functions {
+    Sum = 1,
+    Avarage =2,
+    Minimum =3,
+    Maximum= 4,
+    Count =5
+}
+
+

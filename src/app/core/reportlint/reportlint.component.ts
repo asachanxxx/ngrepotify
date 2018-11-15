@@ -7,7 +7,7 @@
  */
 
 import { Component, Input, OnInit, AfterViewInit } from '@angular/core';
-import { ReportConfiguration, ReportField, ReportDetailProperty, ReportDetailHeader } from './c_reportify_config';
+import { ReportConfiguration, ReportField, ReportDetailProperty, ReportDetailHeader, KeyValueForSummary, DoubleArray } from './c_reportify_config';
 import { Meta_extract } from 'src/app/cls_classes';
 import { Observable, of, observable, Observer } from 'rxjs';
 
@@ -54,6 +54,7 @@ export class ReportlintComponent implements OnInit, AfterViewInit {
    */
   public GroupBy_Colelction: Array<any> = new Array<any>();
 
+  public Group_Colelction_With_summary: DoubleArray = new DoubleArray();
 
 
   public Report_Test_Data: Array<Meta_extract>;
@@ -64,7 +65,7 @@ export class ReportlintComponent implements OnInit, AfterViewInit {
     var total = [0, 1, 2, 3, 4, 5].reduce(
       function (a, b) {
         console.log("reducer", a, b);
-        return a + b;
+        return a = b;
 
       });
 
@@ -75,6 +76,11 @@ export class ReportlintComponent implements OnInit, AfterViewInit {
     this.DocumentConfigurations = new ReportConfiguration();
     this.DocumentConfigurations.Report_Image_Url = 'assets/Repotify.png';
     this.DocumentConfigurations.Header_List = new Array<ReportField>();
+
+    this.time = new Observable<string>((observer: Observer<string>) => {
+      setInterval(() => observer.next(new Date().toString()), 1000);
+    });
+
 
 
     /* Making Test Data* ****************************************************************************/
@@ -115,11 +121,11 @@ export class ReportlintComponent implements OnInit, AfterViewInit {
     header4.Field_Caption_Font_Size = 14;
 
     this.DocumentConfigurations.Header_List.push(header1, header2, header3, header4);
-    console.log(this.DocumentConfigurations.Header_List);
+    //console.log(this.DocumentConfigurations.Header_List);
 
 
     this.Report_Test_Data = new Array<Meta_extract>();
-    for (var x = 0; x < 50; x++) {
+    for (var x = 0; x < 1000; x++) {
       var cusname = "Asanga";
       switch (x % 9) {
         case 1:
@@ -174,22 +180,22 @@ export class ReportlintComponent implements OnInit, AfterViewInit {
     this.Report_Details.Property_Data = this.Report_Test_Data;
     /*End of the configurations *********************************************************************************************/
 
+    console.log("groupByName: ", this.Report_Test_Data);
+
+    let summary: Array<KeyValueForSummary> = new Array<KeyValueForSummary>();
+
+    console.log("Summary ", summary);
+
     this.GroupBy_Colelction = this.transform(this.Report_Test_Data, "val3")
     console.log("groupByName: ", this.GroupBy_Colelction);
 
-    console.log("Object.keys",
-      Object.keys(this.Report_Details.Property_Headers).
-        map(
-          k => (
-            {
-              k,
-              value: this.Report_Details.Property_Headers[k].Field_Text
-            })));
+    this.Group_Colelction_With_summary = this.transform_With_Summary(this.Report_Test_Data, "val3", "val5");
+    console.log("group_summary: ", this.Group_Colelction_With_summary.Arr1);
 
+  }
 
-    this.time = new Observable<string>((observer: Observer<string>) => {
-      setInterval(() => observer.next(new Date().toString()), 1000);
-    });
+  Filer_Summary(key: string) {
+    return this.Group_Colelction_With_summary.Arr2.find(arg => arg.Key === key).Value;
   }
 
   /**
@@ -200,33 +206,40 @@ export class ReportlintComponent implements OnInit, AfterViewInit {
       return null;
     }
     const groupedCollection = collection.reduce((previous, current) => {
+
       if (!previous[current[property]]) {
+
         previous[current[property]] = [current];
       } else {
         previous[current[property]].push(current);
       }
       return previous;
     }, {});
-    console.log("groupedCollection", groupedCollection)
     return Object.keys(groupedCollection).map(key => ({ key, value: groupedCollection[key] }));
   }
 
   /**
-  * ASyncronusly Group the given List of object by given field 
+  * Syncronusly Group the given List of object by given field 
   */
-  transformSync(collection: Array<any>, property: string): Observable<Array<any>> {
+  transform_With_Summary(collection: Array<any>, property: string, simmariseproperty: string): DoubleArray {
+    let group_summary: Array<KeyValueForSummary> = new Array<KeyValueForSummary>();
     if (!collection) {
       return null;
     }
     const groupedCollection = collection.reduce((previous, current) => {
       if (!previous[current[property]]) {
+        group_summary.push({ Key: current[property], Value: current[simmariseproperty] })
         previous[current[property]] = [current];
       } else {
         previous[current[property]].push(current);
+        group_summary.find(x => x.Key === current[property]).Value += current[simmariseproperty];
       }
       return previous;
     }, {});
-    return of(Object.keys(groupedCollection).map(key => ({ key, value: groupedCollection[key] })));
+    let dbarray: DoubleArray = new DoubleArray()
+    dbarray.Arr1 = Object.keys(groupedCollection).map(key => ({ key, value: groupedCollection[key] }));
+    dbarray.Arr2 = group_summary;
+    return dbarray;
   }
 
 }
